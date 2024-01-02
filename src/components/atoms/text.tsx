@@ -4,8 +4,8 @@ import { Text as RNText } from "react-native";
 const Text: React.FC<
     PropsWithChildren<{
         children: Element;
-        style: object;
-        selectable: boolean
+        style?: object;
+        selectable?: boolean;
     }>
 > = ({
     children,
