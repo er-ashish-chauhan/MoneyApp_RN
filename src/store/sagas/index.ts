@@ -1,10 +1,14 @@
-import { all } from 'redux-saga/effects';
+import { all, fork } from 'redux-saga/effects';
 import watchLoginSaga from './loginSaga';
+import watchProfileSaga from './profileSaga';
+import watchCategorySaga from './categorySaga';
 
-function* rootSaga() {
+
+export function* rootSaga(): any {
     yield all([
-        watchLoginSaga
-    ])
+        fork(watchLoginSaga),
+        fork(watchCategorySaga),
+        fork(watchProfileSaga)]);
 }
 
 export default rootSaga;

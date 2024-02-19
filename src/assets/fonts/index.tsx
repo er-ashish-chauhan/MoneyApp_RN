@@ -1,10 +1,10 @@
 const fonts = {
-  LIGHT: 'Lufga-Light',
-  REGULAR: 'Lufga-Regular',
-  MEDIUM: 'Lufga-Medium',
-  SEMI_BOLD: 'Lufga-SemiBold',
-  BOLD: 'Lufga-Bold',
-  EXTRA_BOLD: 'Lufga-ExtraBold',
+  LIGHT: 'Poppins-Light',
+  REGULAR: 'Poppins-Regular',
+  MEDIUM: 'Poppins-Medium',
+  SEMI_BOLD: 'Poppins-SemiBold',
+  BOLD: 'Poppins-Bold',
+  EXTRA_BOLD: 'Poppins-ExtraBold',
 };
 
 export default fonts;

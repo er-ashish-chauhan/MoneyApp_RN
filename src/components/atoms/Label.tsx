@@ -1,5 +1,10 @@
-import React, { PropsWithChildren, useState } from 'react';
-import { View, TextInput, Text, StyleSheet, TextProps } from 'react-native';
+/**
+ * @file Label.tsx
+ * @author Ashish Chauhan
+ */
+
+import React, { PropsWithChildren } from 'react';
+import { Text, StyleSheet, TextProps } from 'react-native';
 import fonts from '../../assets/fonts';
 import { normalize } from '../../utils/normalizeHeightwidth';
 import colors from '../../constants/colors';
@@ -19,11 +24,11 @@ const Label: React.FC<PropsWithChildren<TextProps>> = ({
 
 const styles = StyleSheet.create({
     label: {
-        marginRight: 10,
         fontFamily: fonts.REGULAR,
         fontSize: normalize(11),
         lineHeight: normalize(13),
-        color: colors.labelGrey
+        color: colors.labelGrey,
+        marginLeft: normalize(10)
     }
 });
 

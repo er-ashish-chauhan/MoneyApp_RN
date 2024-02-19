@@ -1,7 +1,13 @@
+/**
+ * @file TextInput.tsx
+ * @author Ashish Chauhan
+ */
+
 import React from 'react';
 import { TextInput as RNTextInput, StyleSheet, TextInputProps } from 'react-native';
 import assets from '../../assets';
 import { normalize } from '../../utils/normalizeHeightwidth';
+import { colors } from '../../constants';
 
 const TextInput: React.FC<TextInputProps> = ({
     style,
@@ -19,6 +25,7 @@ const TextInput: React.FC<TextInputProps> = ({
             style={[styles.input, style]}
             onChangeText={onChangeText}
             value={value}
+            placeholderTextColor={colors.labelGrey}
             placeholder={placeholder || ""}
             autoCapitalize={autoCapitalize}
             secureTextEntry={secureTextEntry}

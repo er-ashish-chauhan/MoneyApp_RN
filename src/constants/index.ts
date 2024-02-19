@@ -1,7 +1,9 @@
-import colors from './colors';
+export { default as endpoints } from './apiEndpoints';
+export { default as colors } from './colors';
 
 const constants = {
-    colors: colors,
+    USER_ACCESS_TOKEN: "USER_ACCESS_TOKEN",
+    TIMESHEETDATEFORMAT: 'MMM DD, YYYY'
 };
 
 export default constants;
