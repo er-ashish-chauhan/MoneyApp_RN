@@ -12,3 +12,4 @@ export {default as Image} from "./Image";
 export {default as ListItem} from "../organisms/ListItem";
 export {default as Flatlist} from "./Flatlist";
 export {default as Modal} from "./Modal";
+export {default as Icon} from "./RNIcon";

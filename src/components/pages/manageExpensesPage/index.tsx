@@ -12,16 +12,16 @@ import {
 } from "../../atoms";
 import translations from "../../../locals";
 import { styles } from "./styles";
-import { Alert, Keyboard, TouchableNativeFeedback, View } from "react-native";
+import { Alert, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AddCategoryNoteType, CategoryItems, CategoryPayInfoItem, RootStackParamList, TextInputVal, ToastType } from "../../../constants/types";
+import { AddCategoryNoteType, CategoryItems, CategoryPayInfoItem, ListActions, RootStackParamList, TextInputVal, ToastType } from "../../../constants/types";
 import ContainerWithHeader from "../../templates/ContainerWithHeader";
 import EditCategoryModal from "../../organisms/EditCategoryModal";
-import { useDispatch, useSelector } from "react-redux";
-import { addCategoryNoteAction, deleteCategoryAction, getCategoryByIdAction, updateCategoryAction } from "../../../store/actions/categoryAction";
+import { useDispatch } from "react-redux";
+import { addCategoryNoteAction, deleteCategoryAction, deleteTransctionAction, getCategoryByIdAction, updateCategoryAction, updateTransactionAction } from "../../../store/actions/categoryAction";
 import { showToast } from "../../../utils/utility";
 import CategorySubItem from "../../organisms/CategorySubItem";
-import { RootState } from "../../../store/reducers";
+import EditTransactionModal from "../../organisms/EditTransactionModal";
 
 type Props = NativeStackScreenProps<RootStackParamList>;
 
@@ -36,16 +36,22 @@ const ManageExpensesPage = ({
 }: Props): JSX.Element => {
     const dispatch = useDispatch();
     const navigateBack = () => navigation.goBack();
-    const isLoading = useSelector((state: RootState) => state.login.loading);
+    // const isLoading = useSelector((state: RootState) => state.login.loading);
 
     const [showEditModal, setShowEditModal] = useState(false);
+    const [showEditTransactionModal, setShowEditTransactionModal] = useState(false);
     const [addNoteType, setAddNoteType] = React.useState<AddCategoryNoteType | null>(null);
     const [categoryItem, setCategoryItem] = useState<CategoryItems | null>(null);
     const [categoryPayInfo, setCategoryPayInfo] = useState<CategoryPayInfoItem[] | null>(null);
+    const [selectedTransaction, setSelecteTransaction] = useState<CategoryPayInfoItem | null>(null);
+    const [transaction, setTransaction] = useState<TextInputVal>("");
+    const [note, setNote] = useState<TextInputVal>("");
     const [categoryValue, setCategoryValue] = useState("");
     const [categoryAmount, setCategoryAmount] = useState<TextInputVal>("");
     const [categoryDescription, setCategoryDescription] = useState<TextInputVal>("");
     const [categoryError, setCategoryError] = useState("");
+    const [noteError, setNoteError] = useState("");
+    const [transactionError, setTransactionError] = useState("");
     const { item, type } = route.params as CategoryItemProp;
 
 
@@ -101,7 +107,7 @@ const ManageExpensesPage = ({
     }
 
     const onAddSuccess = (result: any) => {
-        console.log("result Add >>>>", result);
+        // console.log("result Add >>>>", result);
         if (result) {
             setCategoryAmount("");
             setCategoryDescription("");
@@ -132,10 +138,62 @@ const ManageExpensesPage = ({
         await dispatch(deleteCategoryAction(params, onDeleteAccess))
     }
 
-    const onDeleteAccess = (res : any) => {
-        if(res){
+    const deleteTransactionHandler = async (transactionId: number) => {
+        const params = {
+            id: transactionId
+        }
+
+        await dispatch(deleteTransctionAction(params, onDeleteTransctionAccess))
+    }
+
+    const onDeleteAccess = (res: any) => {
+        if (res) {
             navigation.pop();
         }
+    }
+
+    const onDeleteTransctionAccess = (res: any) => {
+        if (res) {
+            getCategoryDetails();
+        }
+    }
+
+    const onUpdateTransactionSuccess = (res: any) => {
+        if (res) {
+            getCategoryDetails();
+        }
+    }
+
+    const editTransactionHandler = async () => {
+        setNoteError("");
+        setTransactionError("");
+        if (String(note).trim().length === 0 && String(transaction).trim().length === 0) {
+            setNoteError(translations.NOTE_VALIDATION);
+            setTransactionError(translations.TRANSACTION_VALIDATION);
+            return;
+        }
+
+        if (String(note).trim().length === 0) {
+            setNoteError(translations.NOTE_VALIDATION);
+            return;
+        }
+
+        if (String(transaction).trim().length === 0) {
+            setTransactionError(translations.TRANSACTION_VALIDATION);
+            return;
+        }
+
+        setShowEditTransactionModal(false);
+
+        const params = {
+            amount: transaction,
+            title: note,
+            type: selectedTransaction?.type,
+            id: selectedTransaction?.id
+        }
+        // console.log(params);
+        const action = updateTransactionAction(params, onUpdateTransactionSuccess);
+        await dispatch(action);
     }
 
     const onDeleteCategory = () => {
@@ -156,6 +214,36 @@ const ManageExpensesPage = ({
         )
     }
 
+    const onDeleteSubCategory = (transactionId: number) => {
+        Alert.alert(
+            translations.DELETE_TRANSACTION,
+            translations.DELETE_TRANSACTION_MESSAGE,
+            [
+                {
+                    text: translations.DELETE,
+                    style: "destructive",
+                    onPress: () => deleteTransactionHandler(transactionId),
+                },
+                {
+                    text: translations.CANCEL,
+                    style: 'cancel',
+                },
+            ]
+        )
+    }
+
+    const onListClickHandler = async (type: number, transaction: CategoryPayInfoItem) => {
+        if (type == ListActions.EDIT) {
+            await setSelecteTransaction(transaction);
+            await setTransaction(transaction.amount);
+            await setNote(transaction.title);
+            setShowEditTransactionModal(true);
+        } else {
+            onDeleteSubCategory(transaction?.id)
+        }
+
+    }
+
     useEffect(() => {
         getCategoryDetails();
         if (type) {
@@ -168,6 +256,7 @@ const ManageExpensesPage = ({
     ) => (
         <CategorySubItem
             item={item}
+            onClick={onListClickHandler}
         />
     )
 
@@ -185,6 +274,18 @@ const ManageExpensesPage = ({
                     categoryValue={categoryValue}
                     onSubmit={editCategoryHandler}
                     error={categoryError}
+                />
+            )}
+            {showEditTransactionModal && (
+                <EditTransactionModal
+                    setShowEditModal={(val) => setShowEditTransactionModal(val)}
+                    setCategoryValue={(text) => setNote(text)}
+                    categoryValue={String(note)}
+                    onSubmit={editTransactionHandler}
+                    transaction={String(transaction)}
+                    error={noteError}
+                    transactionError={transactionError}
+                    setTransactionValue={(text) => setTransaction(text)}
                 />
             )}
             <ScrollView

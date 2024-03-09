@@ -13,7 +13,7 @@ import { normalize } from "../../utils/normalizeHeightwidth";
 import colors from "../../constants/colors";
 import InputFieldWithText from "../molecules/InputFieldWithText";
 import { AddCategoryNoteType, TextInputVal } from "../../constants/types";
-import { getAmount, getColorByAmount } from "../../utils/utility";
+import { getAmount, getColorByAmount, hitSlopWithZeroLeftRight } from "../../utils/utility";
 
 const ListItem: React.FC<{
     name: TextInputVal,
@@ -68,6 +68,7 @@ const ListItem: React.FC<{
                                 imageSource={assets.images.plusIcon}
                                 onClick={() => setAddNoteType(AddCategoryNoteType.PLUS)}
                                 imageStyle={styles.imageStyle}
+                                hit_slop={hitSlopWithZeroLeftRight}
                             />
                             <ImageButton
                                 imageSource={assets.images.minusIcon}
@@ -77,6 +78,7 @@ const ListItem: React.FC<{
                                 imageStyle={[styles.imageStyle, {
                                     marginLeft: normalize(15)
                                 }]}
+                                hit_slop={hitSlopWithZeroLeftRight}
                             />
                         </View>
 

@@ -10,7 +10,8 @@ export interface FieldProps {
     setText?: (value: TextInputVal) => void,
     type?: AddCategoryNoteType,
     onAction?: (value: AddCategoryNoteType | null) => void,
-    secureEntry?: boolean
+    secureEntry?: boolean,
+    fieldStyle?: StyleProp<TextStyle>
 }
 
 export type RootStackParamList = {
@@ -59,14 +60,30 @@ export interface ImageTextButtonProps {
     buttonText?: string,
     imageStyle?: StyleProp<ImageStyle>,
     textStyle?: StyleProp<TextStyle>
-    onClick: () => void
+    onClick: () => void,
+    hit_slop?: HitSlot
 }
+
+export interface HitSlot {
+    top: number,
+    left: number,
+    right: number,
+    bottom: number
+} 
+
 export interface IconTextButtonProps {
     name: string,
-    buttonText: string,
+    buttonText?: string,
     size?: number,
     color?: string,
     textStyle?: StyleProp<TextStyle>
+    onClick: () => void
+}
+
+export interface IconButtonProps {
+    name: string,
+    size?: number,
+    color?: string,
     onClick: () => void
 }
 
@@ -84,6 +101,17 @@ export interface EditCategoryFormProps {
     onChangeHandler?: (val: TextInputVal) => void;
     placeholder?: string;
     isError?: string | undefined;
+    onSubmit: () => void;
+    onCancel: () => void;
+}
+
+export interface EditTransactionFormProps {
+    note: string;
+    transaction: string;
+    onNoteChangeHandler?: (val: TextInputVal) => void;
+    onTransactionChangeHandler?: (val: TextInputVal) => void;
+    noteError?: string | undefined;
+    transactionError?: string | undefined;
     onSubmit: () => void;
     onCancel: () => void;
 }
@@ -153,4 +181,9 @@ export interface CategoryPayInfoItem {
     created_at: string,
     updated_at: string,
     onDelete?: (id: number) => void;
+}
+
+export enum ListActions {
+    EDIT = 1,
+    DELETE = 2
 }

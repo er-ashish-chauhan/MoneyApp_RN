@@ -7,15 +7,18 @@ import React from 'react';
 import { ImageTextButtonProps } from '../../constants/types';
 import { Image, PressableText, Text } from '../atoms';
 import { normalize } from '../../utils/normalizeHeightwidth';
+import { hitSlop } from '../../utils/utility';
 
 const ImageButton = ({
     imageSource,
     imageStyle = {},
     containerStyle = {},
     onClick = () => { },
+    hit_slop = hitSlop
 }: ImageTextButtonProps): JSX.Element => {
     return (
         <PressableText
+            hitSlop={hit_slop}
             onPress={() => onClick()}
             style={[containerStyle]}>
             <Image

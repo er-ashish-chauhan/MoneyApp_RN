@@ -4,10 +4,9 @@
  */
 import React from "react";
 import { View } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
 import { RouteType, Routes } from "../../constants/types";
-import constants, { colors } from "../../constants";
-import MIcon from "react-native-vector-icons/MaterialCommunityIcons"
+import { Image } from ".";
+import assets from "../../assets";
 const NavigationIcon = ({
     uniqueKey,
     route,
@@ -20,6 +19,36 @@ const NavigationIcon = ({
     return (
         <View key={uniqueKey}>
             {route === Routes.HOME && (
+                <Image
+                    source={assets.images.homeIcon}
+                    style={{
+                        height: isFocused ? 28 : 25,
+                        width: isFocused ? 28 : 25,
+                        resizeMode: "contain"
+                    }}
+                />
+            )}
+            {route === Routes.SETTINGS && (
+                <Image
+                    source={assets.images.settingIcon}
+                    style={{
+                        height: isFocused ? 28 : 25,
+                        width: isFocused ? 28 : 25,
+                        resizeMode: "contain"
+                    }}
+                />
+            )}
+            {route === Routes.ADD_CATEGORY && (
+                <Image
+                    source={assets.images.addIcon}
+                    style={{
+                        height: isFocused ? 28 : 25,
+                        width: isFocused ? 28 : 25,
+                        resizeMode: "contain"
+                    }}
+                />
+            )}
+            {/* {route === Routes.HOME && (
                 <Icon name="home" size={26} color={colors.white} />
             )}
             {route === Routes.SETTINGS && (
@@ -27,7 +56,7 @@ const NavigationIcon = ({
             )}
             {route === Routes.ADD_CATEGORY && (
                 <MIcon name="wallet-plus" size={32} color={colors.white} />
-            )}
+            )} */}
         </View>
     )
 }

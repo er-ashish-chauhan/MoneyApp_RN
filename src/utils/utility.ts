@@ -5,7 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 import { colors } from '../constants';
 
-export const hitSlop = { top: 15, left: 15, right: 15, bottom: 15 };
+export const hitSlop = { top: 20, left: 20, right: 20, bottom: 20 };
+export const hitSlopWithZeroLeftRight = { top: 20, left: 0, right: 0, bottom: 20 };
 
 export const phoneNumberRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
 
@@ -64,7 +65,7 @@ export const showToast = (message: string, type: string) => {
 export const getAmount = (amount: string) => {
     let valueInt = amount.trim().length > 0 ? parseInt(amount) : 0;
     if (valueInt) {
-        const result = valueInt > 0 ? `$${amount}` : `-$${Math.abs(valueInt)}`;
+        const result = valueInt > 0 ? `$${parseInt(amount).toLocaleString()}` : `-$${Math.abs(valueInt).toLocaleString()}`;
         return String(result)
     }
     return `$${valueInt}`

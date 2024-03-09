@@ -9,7 +9,7 @@ import { IconTextButtonProps } from '../../constants/types';
 import { styles } from './styles';
 import { PressableText, Text } from '../atoms';
 import Icon from 'react-native-vector-icons/Ionicons';
-import constants, { colors } from '../../constants';
+import { colors } from '../../constants';
 
 const IconTextButton = ({
     name,

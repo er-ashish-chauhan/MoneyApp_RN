@@ -15,6 +15,14 @@ const images = {
     crossIcon: require("./crossIcon.png"),
     delete: require("./delete.png"),
     share: require("./share.png"),
+    moneyappicon: require("./moneyappicon.png"),
+    addIcon: require("./icon-1.png"),
+    homeIcon: require("./icon-2.png"),
+    settingIcon: require("./icon-3.png"),
+    userNameIcon: require("./settings-1.png"),
+    emailIcon: require("./settings-2.png"),
+    phoneIcon: require("./settings-3.png"),
+    deleteIcon: require("./settings-4.png")
 };
 
 export default images;

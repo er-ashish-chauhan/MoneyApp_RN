@@ -62,10 +62,10 @@ const styles = StyleSheet.create({
     },
     singupText: {
         textAlign: "center",
-        fontSize: normalize(11)
+        fontSize: normalize(12)
     },
     infoText: {
-        fontSize: normalize(11)
+        fontSize: normalize(14)
     }
 });
 

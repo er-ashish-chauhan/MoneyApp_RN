@@ -15,7 +15,8 @@ const NumberField = ({
     onChangeHandler,
     value,
     placeholder,
-    isError = ""
+    isError = "",
+    fieldStyle = {}
 }: FieldProps): JSX.Element => {
     const [isFocused, setIsFocused] = React.useState<boolean>(false);
     return (
@@ -36,6 +37,7 @@ const NumberField = ({
                     keyboardType="phone-pad"
                     enablesReturnKeyAutomatically
                     maxLength={11}
+                    style={fieldStyle}
                 />
                 
             </View>

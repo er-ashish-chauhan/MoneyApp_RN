@@ -13,5 +13,7 @@ export default {
     changePassword: `/api/update-password`,
     forgotPassword: `/api/forgot-password`,
     deleteAccount: `/api/delete-user`,
-    deleteCategory: (id: number) => `/api/category/${id}`
+    deleteCategory: (id: number) => `/api/category/${id}`,
+    deleteTransaction: (id: number) => `/api/delete-note/${id}`,
+    updateTransaction: (id: number) => `api/upd-note/${id}`
 }

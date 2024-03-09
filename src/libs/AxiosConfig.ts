@@ -31,8 +31,7 @@ axiosConfig.interceptors.response.use(
       error.response && failedRequest
     ) {
       // Handle your logout logic here
-      // const token = await getDataFromStorage(constants.USER_ACCESS_TOKEN);
-      // failedRequest.headers['Authorization'] = 'Bearer ' + token;
+ 
       // return axios.request(failedRequest);
     }
     return Promise.reject(error);

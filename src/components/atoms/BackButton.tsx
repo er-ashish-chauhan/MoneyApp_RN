@@ -10,8 +10,14 @@ import { hitSlop } from '../../utils/utility';
 import { colors } from '../../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const BackButton: React.FC<TouchableOpacityProps> = ({
+// Define the type for your custom props
+interface BackButtonProps extends TouchableOpacityProps {
+    iconColor?: string;
+}
+
+const BackButton: React.FC<BackButtonProps> = ({
     style,
+    iconColor = colors.labelGrey,
     ...rest
 }) => {
     return (
@@ -20,7 +26,7 @@ const BackButton: React.FC<TouchableOpacityProps> = ({
             hitSlop={hitSlop}
             style={[styles.buttonWrapper, style]}
             {...rest}>
-            <Icon name='chevron-back' color={colors.labelGrey} size={normalize(25)} />
+            <Icon name='chevron-back' color={iconColor} size={normalize(25)} />
         </TouchableOpacity>
     );
 };

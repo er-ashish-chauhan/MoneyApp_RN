@@ -83,9 +83,6 @@ const SettingsPage = ({
 
     const imageUploadSuccess = async (res: any) => {
         if (res) {
-            // if (res?.path) {
-            //     setimageURI(res?.path);
-            // }
             await dispatch(getUserDetails());
         }
     }
@@ -101,7 +98,7 @@ const SettingsPage = ({
         await launchImageLibrary(options, async res => {
             console.log("res >>>", res);
             if (res.assets) {
-                setimageURI({uri: String(res.assets[0].uri)});
+                setimageURI({ uri: String(res.assets[0].uri) });
                 const formData = new FormData();
                 formData.append("user_image", {
                     uri: res.assets[0].uri,
@@ -146,7 +143,7 @@ const SettingsPage = ({
             setemail(userProfile?.email);
             setnumber(userProfile?.phone_num);
             if (userProfile?.profile_img && userProfile?.profile_img.trim().length > 0) {
-                setimageURI({uri: userProfile?.profile_img});
+                setimageURI({ uri: userProfile?.profile_img });
             }
             console.log(JSON.stringify(userProfile, null, 1));
         }, [userProfile])
@@ -198,31 +195,32 @@ const SettingsPage = ({
                         />
                     </PressableText>
                     <Spacer size={30} />
-                    <IconTextButton
+                    <ImageTextButton
+                        imageSource={assets.images.userNameIcon}
                         buttonText={String(name)}
-                        name="person"
                         onClick={() => { }}
-                        size={19}
+                        imageStyle={{
+                            height: normalize(20),
+                            width: normalize(20)
+                        }}
                     />
                     <ImageTextButton
+                        imageSource={assets.images.emailIcon}
                         buttonText={String(email)}
-                        imageSource={assets.images.ic_email}
-                        imageStyle={{
-                            tintColor: colors.primaryColor,
-                            height: normalize(18),
-                            width: normalize(18)
-                        }}
                         onClick={() => { }}
+                        imageStyle={{
+                            height: normalize(20),
+                            width: normalize(20)
+                        }}
                     />
                     <ImageTextButton
+                        imageSource={assets.images.phoneIcon}
                         buttonText={`+1-${number}`}
-                        imageSource={assets.images.ic_phone}
-                        imageStyle={{
-                            tintColor: colors.primaryColor,
-                            height: normalize(18),
-                            width: normalize(18)
-                        }}
                         onClick={() => { }}
+                        imageStyle={{
+                            height: normalize(20),
+                            width: normalize(20)
+                        }}
                     />
                 </View>
                 <Divider style={{
@@ -267,9 +265,9 @@ const SettingsPage = ({
                     }} />
                     <ImageTextButton
                         buttonText={translations.DELETE_ACCOUNT}
-                        imageSource={assets.images.deleteAccount}
+                        imageSource={assets.images.deleteIcon}
                         imageStyle={{
-                            tintColor: colors.danger
+                            // tintColor: colors.danger
                         }}
                         onClick={deleteUserHandler}
                     />

@@ -45,3 +45,16 @@ export const deleteCategoryService = async (params: AddCategoryBody) => {
         API: `${endpoints.deleteCategory(params?.id || 0)}`
     });
 };
+
+export const deleteTransactionService = async (params: AddCategoryBody) => {
+    return deleteRequest({
+        API: `${endpoints.deleteTransaction(params?.id || 0)}`
+    });
+};
+
+export const updateTransactionService = async (params: AddCategoryBody) => {
+    return putRequest({
+        API: `${endpoints.updateTransaction(params?.id || 0)}`,
+        data: params
+    });
+};

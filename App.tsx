@@ -34,11 +34,14 @@ function App(): React.JSX.Element {
     };
 
     init().finally(() => {
-      setTimeout(() => {
-        BootSplash.hide({
-          fade: true
-        });
-      }, 2000);
+      BootSplash.hide({
+        fade: false
+      });
+      // setTimeout(() => {
+      //   BootSplash.hide({
+      //     fade: false
+      //   });
+      // }, 4000);
     });
   }, []);
 

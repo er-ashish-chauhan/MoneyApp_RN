@@ -6,6 +6,7 @@
 import React, { PropsWithChildren } from "react";
 import {
     Dimensions,
+    Platform,
     StyleSheet,
     View
 } from "react-native";
@@ -34,19 +35,20 @@ const ContainerWithHeader: React.FC<PropsWithChildren<ContainerWithHeaderProps>>
     isShowHeader = false,
     showFooter = false,
     navigateBack = () => { },
-    onDeleteCategory = () => {}
+    onDeleteCategory = () => { }
 }): JSX.Element => {
 
     return (
         <>
+            <StatusBar />
+            <Header
+                isShowHeader={isShowHeader}
+                navigateBack={() => navigateBack()}
+                iconColor={colors.white}
+            />
             <SafeAreaView
                 style={styles.container}>
-                <StatusBar />
-                <Header
-                    isShowHeader={isShowHeader}
-                    navigateBack={() => navigateBack()}
-                />
-                <Divider />
+                {/* <Divider /> */}
                 <View style={styles.subContainer}>
                     {children}
                 </View>
@@ -75,14 +77,16 @@ const ContainerWithHeader: React.FC<PropsWithChildren<ContainerWithHeaderProps>>
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: -15,
+        paddingTop: -40,
         paddingBottom: - height * 0.1,
-        backgroundColor: colors.bgColor,
     },
     subContainer: {
         flex: 1,
         paddingVertical: 10,
-        paddingHorizontal: 20
+        paddingTop: Platform.OS === "android"? 30: 20,
+        paddingHorizontal: 20,
+        // backgroundColor: "#fff"
+        backgroundColor: colors.bgColor,
     },
     rowContainer: {
         flex: 1,

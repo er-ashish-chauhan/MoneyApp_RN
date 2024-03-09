@@ -4,7 +4,7 @@
  */
 
 import { AddCategoryBody, PaginationProps } from "../../constants/types";
-import { ADD_CATEGORY, ADD_CATEGORY_NOTE, DELETE_CATEGORY, GET_CATEGORIES, GET_CATEGORY_BY_ID, UPDATE_CATEGORY } from "./actionTypes";
+import { ADD_CATEGORY, ADD_CATEGORY_NOTE, DELETE_CATEGORY, DELETE_TRANSACTION, GET_CATEGORIES, GET_CATEGORY_BY_ID, UPDATE_CATEGORY, UPDATE_TRANSACTION } from "./actionTypes";
 
 export const addCategoryAction = (params: AddCategoryBody, success: (res: any) => void) => {
     return {
@@ -49,6 +49,22 @@ export const updateCategoryAction = (params: AddCategoryBody, success: (res: any
 export const deleteCategoryAction = (params: { id: number | string }, success: (res: any) => void) => {
     return {
         type: DELETE_CATEGORY,
+        params,
+        success
+    };
+};
+
+export const deleteTransctionAction = (params: { id: number | string }, success: (res: any) => void) => {
+    return {
+        type: DELETE_TRANSACTION,
+        params,
+        success
+    };
+};
+
+export const updateTransactionAction = (params: any, success: (res: any) => void) => {
+    return {
+        type: UPDATE_TRANSACTION,
         params,
         success
     };
