@@ -5,114 +5,74 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+import React, { useEffect } from 'react';
+import { Provider, useDispatch } from 'react-redux';
+import store from './src/store';
+import Navigator from './src/navigator';
+import BootSplash from "react-native-bootsplash";
+import { NativeBaseProvider, extendTheme } from 'native-base';
+import LoaderHOC from './src/components/templates/LoaderHOC';
+import Toast from 'react-native-toast-message'
+import { getDataFromStorage } from './src/utils/utility';
+import constants from './src/constants';
+import axiosConfig from './src/libs/AxiosConfig';
+import { getUserDetails } from './src/store/actions/loginAction';
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  // const isDarkMode = useColorScheme() === 'dark';
+  const dispatch = useDispatch();
+  const instance = axiosConfig;
+  useEffect(() => {
+    const init = async () => {
+      // …do multiple sync or async tasks
+      const userToken = await getDataFromStorage(constants.USER_ACCESS_TOKEN);
+      console.log(axiosConfig.defaults.headers, "userToken")
+      if (userToken) {
+        instance.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
+        await dispatch(getUserDetails());
+      }
+    };
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+    init().finally(() => {
+      BootSplash.hide({
+        fade: false
+      });
+      // setTimeout(() => {
+      //   BootSplash.hide({
+      //     fade: false
+      //   });
+      // }, 4000);
+    });
+  }, []);
+
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <LoaderHOC>
+      <Navigator />
+      <Toast />
+    </LoaderHOC>
   );
 }
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
-export default App;
+const AppWrapper = () => {
+
+  const newColorTheme = {
+    brand: {
+      900: "#8287af",
+      800: "#7c83db",
+      700: "#b3bef6",
+    },
+  };
+  const theme = extendTheme({ colors: newColorTheme });
+  return (
+    <Provider store={store} >
+      <NativeBaseProvider theme={theme}>
+        <App />
+      </NativeBaseProvider>
+    </Provider>
+  )
+
+}
+
+export default AppWrapper;
